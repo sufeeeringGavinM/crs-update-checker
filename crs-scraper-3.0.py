@@ -42,14 +42,15 @@ differencesSinceLastIteration=[]
 print("Done scraping CRS regular classes as of opening the file!")
 while True:
     if(i!=0):
-        prevIter=ScrapeIt("2025","2",generationdate,i)
+        prevIter="AllSince"+str(i)+".csv"
     else:
         prevIter=initialFile
         
-    sleep(500)
+    sleep(1)
     
     i+=1   
-    
+    start_time=time()
+
     currIter=ScrapeIt("2025","2",generationdate,i)
     nowWithinLoop = datetime.datetime.now()
     NowWithinLoop =nowWithinLoop.strftime("%Y-%m-%d--%H-%M-%S")
@@ -91,10 +92,11 @@ while True:
         fileComparisonIter=cmp(pathtoOneIter,pathtoTwoIter,shallow=False)
         
         if fileComparisonGen==False:
-            #print("Since the generation date, something new has been added! Check the file:", differencesSinceGenerationDate[i-1])
-            if fileComparisonIter==False:
-                print("Something changed. What has been changed since last *iteration* is in:",differencesSinceLastIteration[i-1])
-                print("Check LatestChange.html for the latest change")
+            print("Since the generation date, something new has been added! Check the file:", differencesSinceGenerationDate[i-1])
+            if fileComparisonIter==False and i!=2:
+                print("***Something changed. What has been changed since last *iteration* is in:",differencesSinceLastIteration[i-1])
+                print("***Check LatestChange.html for the latest change")
+                print("***Change occurred in past %s seconds" %(time() - start_time))
                 shutil.copy2(differencesSinceLastIteration[i-1],"LatestChange.html")
             else:
                 print("Nothing has changed since last iteration")
@@ -103,4 +105,5 @@ while True:
             print("Nothing changed.")
     else:
         print("At first iteration, there be nothing to compare difference to...")
+        shutil.copy2(differencesSinceLastIteration[i-1],"LatestChange.html")
 
