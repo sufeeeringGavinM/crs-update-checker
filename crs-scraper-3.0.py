@@ -92,7 +92,8 @@ while True:
         fileComparisonIter=cmp(pathtoOneIter,pathtoTwoIter,shallow=False)
         
         if fileComparisonGen==False:
-            print("Since the generation date, something new has been added! Check the file:", differencesSinceGenerationDate[i-1])
+            print("Since the generation date, something new has been added! Check the file: LatestDifferenceSinceGenerationDate.html")
+            shutil.copy2(differencesSinceLastIteration[i-1],"LatestDifferenceSinceGenerationDate.html")
             if fileComparisonIter==False and i!=2:
                 print("***Something changed. What has been changed since last *iteration* is in:",differencesSinceLastIteration[i-1])
                 print("***Check LatestChange.html for the latest change")
